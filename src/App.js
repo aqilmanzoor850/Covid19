@@ -1,25 +1,53 @@
 import React from 'react';
-import logo from './logo.svg';
+import 'antd/dist/antd.css';
 import './App.css';
+import { Router, Route,Switch } from 'react-router-dom';
+import history from './public/history';
+import Statistics from './components/statistics.component';
+import CovidTable from './components/table.component';
+import { Layout, Menu, Breadcrumb } from 'antd';
+import Header from './components/common/header.component';
+import SideBar from './components/common/sidebar.component';
+
+function Main(props) {
+  const { Content } = Layout;
+  return(
+    <div className='h100p'>
+      <Layout>
+        <Header />
+        <Layout>
+          <SideBar />
+        <Layout>
+            <Content
+              className="site-layout-background"
+              style={{
+                overflowY: 'scroll',
+                overflowX: 'hidden',
+                margin: 0,
+                minHeight: 280,
+              }}
+            >
+              <Switch>
+                <Route path={["/", "/stats"]} exact component={Statistics} />
+                <Route path='/table' component={CovidTable} />
+              </Switch>
+            </Content>
+          </Layout>
+        </Layout>
+      </Layout>
+    </div>
+  );
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router history={history}>
+        <Switch>
+          <Route component={Main} />
+        </Switch>
+      </Router>
+    </>
   );
 }
 
